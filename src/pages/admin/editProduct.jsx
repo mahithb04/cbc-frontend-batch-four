@@ -50,7 +50,7 @@ export default function EditProductForm(){
         const token = localStorage.getItem("token")
         console.log(token);
         
-        await axios.put(import.meta.env.VITE_BACKEND_URL + "/api/product"+productId,product ,{
+        await axios.put(import.meta.env.VITE_BACKEND_URL + "/api/product/"+productId,product ,{
             headers : {
                 Authorization : "Bearer "+token
             }
