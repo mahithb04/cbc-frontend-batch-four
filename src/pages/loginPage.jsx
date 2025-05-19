@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
+import { GrGoogle } from "react-icons/gr";
 
 export default function LoginPage(){
 
@@ -9,6 +11,30 @@ export default function LoginPage(){
     const [password,setPassword] = useState("")
     const [loading,setLoading] = useState(false);
     const navigate = useNavigate()
+    const loginWithGoogle = useGoogleLogin(
+        {
+            onSuccess : (res)=>{
+                setLoading(true)
+                axios.post(import.meta.env.VITE_BACKEND_URL+"/api/user/google",{
+                    accessToken : res.access_token
+                }).then((response)=>{
+                        console.log("Login successful", response.data);
+                        toast.success("Login successful");
+                        localStorage.setItem("token", response.data.token)
+                        
+                        const user = response.data.user;
+                        if(user.role === "admin"){
+                            //go to the admin page
+                            navigate("/admin")
+                        }else{
+                            //go to the homepage
+                            navigate("/")
+                        }
+                        setLoading(false)
+                    });
+            }
+        }
+    )
     
 
     function handleLogin(){
@@ -60,10 +86,17 @@ export default function LoginPage(){
                             setPassword(p.target.value)
                         }
                     } className = "w-[400px] h-[50px] border border-white rounded-xl text-center m-[5px]" type = "password" placeholder="password"/>
-                    <button onClick={handleLogin} className = "w-[400px] h-[50px] bg-green-500 text-white rounded-xl cursor-pointer">
+                    <button onClick={handleLogin} className = "w-[400px] h-[50px] mt-[10px] bg-green-500 text-white rounded-xl cursor-pointer">
                         {
                             loading?"Loading...":"Login"
                         }
+                    </button>
+                    <button className = "w-[400px] h-[50px] mt-[10px] bg-green-500 text-white rounded-xl cursor-pointer flex justify-center items-center"
+                            onClick={loginWithGoogle}>
+                                {
+                                    loading?"Loading...":"Login with Google"
+                                }
+                        <GrGoogle className="mr-[10px]"/>
                     </button>
                     <p className="text-gray-600 text-center m-[10px]">
                         Don't have an account yet?
