@@ -38,17 +38,18 @@ export default function ProductOverview(){
     )
     return(
         <div className="w-full h-full">
-            {
-                status == "loading"&&<Loader/>
-            }
-            {
-                status == "loaded"&&
-                <div className="w-full h-full flex">
-                    <div className="w-[50%] h-full">
+            {status == "loading"&&<Loader/>}
+            {status == "loaded"&&
+                <div className="w-full h-full flex flex-col lg:flex-row">
+
+                    <h1 className="text-3xl lg:hidden font-bold text-center mb-[40px]">{product.name}{" | "}<span className="text-2xl font-semibold text-center text-gray-500">{product.altNames.join(" | ")}</span></h1>
+
+                    <div className="w-full lg:h-full lg:w-[50%]">
+                        {console.log(product)}
                         <ImageSlider images={product.images}/>
                     </div>
-                    <div className="w-[50%] h-full p-[40px]">
-                        <h1 className="text-3xl font-bold text-center mb-[40px]">{product.name}{" | "}<span className="text-2xl font-semibold text-center text-gray-500">{product.altNames.join(" | ")}</span></h1>
+                    <div className="w-full lg:w-[50%] pt-[100px] h-full p-[40px]">
+                        <h1 className=" hidden lg:block text-3xl font-bold text-center mb-[40px]">{product.name}{" | "}<span className="text-2xl font-semibold text-center text-gray-500">{product.altNames.join(" | ")}</span></h1>
                         <div className="w-full flex justify-center mb-[40px]">
                             {
                                 product.labeledPrice>product.price?(
@@ -63,7 +64,7 @@ export default function ProductOverview(){
                                     
                             }
                         </div>
-                        <p className="text-xl text-center text-gray-500 mb-[40px] border">{product.description}</p>
+                        <p className="text-xl text-center text-gray-500 mb-[40px]">{product.description}</p>
                         <div className="w-full flex justify-center mb-[40px]">
                             <button className="bg-pink-800 border border-pink-800 cursor-pointer text-white w-[200px] h-[50px] rounded-lg hover:bg-white hover:text-pink-800 transition-all duration-300 ease-in-out mr-[20px]" onClick={
                                 ()=>{

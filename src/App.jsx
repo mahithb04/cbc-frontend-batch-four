@@ -7,6 +7,7 @@ import Testing from './pages/testing';
 import RegisterPage from './pages/client/register';
 import HomePage from './pages/homePage';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import ResponsiveTesting from './pages/test';
 
 function App() {
   
@@ -19,6 +20,7 @@ function App() {
             <Route path="/admin/*" element = {<AdminPage/>}/>
             <Route path="/login" element = {<LoginPage/>}/>
             <Route path="/register" element={<RegisterPage/>}/>
+            <Route path="/r" element={<ResponsiveTesting/>}/>
             <Route path="/*" element = {<HomePage/>}/>
             <Route path="/testing" element = {<Testing/>}/>
           </Routes>
